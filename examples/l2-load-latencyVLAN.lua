@@ -47,9 +47,9 @@ function loadSlave(queue)
 		buf:getVlanPacket():fill{
 			ethSrc = txDev,
 			ethDst = ETH_DST,
-			ethType = 0x1234
-			vlanTci = 0x4095
-			vlanEther_type = 0x8100
+			ethType = 0x8100,
+			vlanTci = 0x4095,
+			vlanEther_type = 0x0800
 		}
 	end)
 	local bufs = mem:bufArray()
