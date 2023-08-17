@@ -7,6 +7,8 @@ local hist   = require "histogram"
 
 local PKT_SIZE	= 60
 local ETH_DST	= "11:12:13:14:15:16"
+local ip_src = "172.16.0.1"
+local ip_dst = "172.16.0.2"
 
 local function getRstFile(...)
 	local args = { ... }
@@ -49,7 +51,8 @@ function loadSlave(queue)
 			ethDst = ETH_DST,
 			ethType = 0x8100,
 			vlanTci = 0x4095,
-			vlanEther_type = 0x0800,
+			--vlanEther_type = 0x0800,
+			vlanEther_type = 0x8100,
 			macLcid = 0xff,
 			macElcid = 0xff,
 			rlcOct = 255,
@@ -57,8 +60,8 @@ function loadSlave(queue)
 			rlcSo = 0xffff,
 			pdcpOct = 0xff,
 			pdcpPdcp_sn = 0xff,
-			ip4Src = "172.16.0.1",
-			ip4Src = "172.16.0.2",
+			ip4Src = ip_src,
+			ip4Src = ip_dst,
 			ip4Version = 4
 		}
 	end)
