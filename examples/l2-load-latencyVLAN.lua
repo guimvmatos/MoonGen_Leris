@@ -44,7 +44,7 @@ end
 
 function loadSlave(queue)
 	local mem = memory.createMemPool(function(buf)
-		buf:getVlanRlcPacket():fill{
+		buf:getVlanRlcPdcpPacket():fill{
 			ethSrc = txDev,
 			ethDst = ETH_DST,
 			ethType = 0x8100,
@@ -52,7 +52,9 @@ function loadSlave(queue)
 			vlanEther_type = 0x0800,
 			rlcOct = 255,
 			rlcSn = 0xffff,
-			rlcSo = 0xffff
+			rlcSo = 0xffff,
+			pdcpOct = 0xff,
+			pdcpPdcp_sn = 0xff
 		}
 	end)
 	local bufs = mem:bufArray()
