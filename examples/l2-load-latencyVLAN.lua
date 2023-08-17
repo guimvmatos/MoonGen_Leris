@@ -44,19 +44,22 @@ end
 
 function loadSlave(queue)
 	local mem = memory.createMemPool(function(buf)
-		buf:getVlanRlcPdcpMacPacket():fill{
+		buf:get5gPacket():fill{
 			ethSrc = txDev,
 			ethDst = ETH_DST,
 			ethType = 0x8100,
 			vlanTci = 0x4095,
 			vlanEther_type = 0x0800,
+			macLcid = 0xff,
+			macElcid = 0xff,
 			rlcOct = 255,
 			rlcSn = 0xffff,
 			rlcSo = 0xffff,
 			pdcpOct = 0xff,
 			pdcpPdcp_sn = 0xff,
-			macLcid = 0xff,
-			macElcid = 0xff
+			ip4Src = "172.16.0.1",
+			ip4Src = "172.16.0.2",
+			ip4Version = 4
 		}
 	end)
 	local bufs = mem:bufArray()
