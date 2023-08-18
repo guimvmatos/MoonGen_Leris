@@ -52,7 +52,7 @@ function loadSlave(queue)
 			ethType = 0x8100,
 			vlanTci = 0x4095,
 			--vlanEther_type = 0x0800,
-			vlanEther_type = 0x0800,
+			vlanEther_type = 0x8100,
 			macLcid = 0xff,
 			macElcid = 0xff,
 			rlcOct = 255,

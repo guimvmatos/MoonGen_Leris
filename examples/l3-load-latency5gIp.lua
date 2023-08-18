@@ -57,9 +57,7 @@ local function fillUdpPacket(buf, len)
 	buf:get5gIpUdpPacket():fill{
 		ethSrc = queue,
 		ethDst = DST_MAC,
-		ethType = 0x8100,
-		vlanTci = 0x4095,
-		vlanEther_type = 0x0800,
+		ethType = 0x887F,
 		macLcid = 0xff,
 		macElcid = 0xff,
 		rlcOct = 255,
