@@ -6,7 +6,7 @@ local stats  = require "stats"
 local hist   = require "histogram"
 
 local PKT_SIZE	= 60
-local ETH_DST	= "11:12:13:14:15:16"
+local ETH_DST	= "ac:1f:6b:67:06:40"
 local ip_src = "172.16.0.1"
 local ip_dst = "172.16.0.2"
 
@@ -53,15 +53,18 @@ function loadSlave(queue)
 			vlanTci = 0x4095,
 			--vlanEther_type = 0x0800,
 			vlanEther_type = 0x8100,
-			macLcid = 0xff,
-			macElcid = 0xff,
-			rlcOct = 255,
-			rlcSn = 0xffff,
-			rlcSo = 0xffff,
-			pdcpOct = 0xff,
-			pdcpPdcp_sn = 0xff,
+			macLcid = 0x0,
+			macElcid = 0x0,
+			rlcOct = 0,
+			rlcSn = 0x0,
+			rlcSo = 0x0,
+			pdcpOct = 0x0,
+			pdcpPdcp_sn = 0x0,
 			ip4Src = ip_src,
 			ip4Src = ip_dst,
+			ip4ID = 1,
+			ip4TTL = 64,
+			ip4Protocol = 7,
 			ip4Version = 4
 		}
 	end)

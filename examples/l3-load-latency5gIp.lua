@@ -10,11 +10,12 @@ local arp    = require "proto.arp"
 local log    = require "log"
 
 -- set addresses here
-local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
+local DST_MAC		= "ac:1f:6b:67:06:40"
+--local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
 local SRC_IP_BASE	= "172.16.0.1" -- actual address will be SRC_IP_BASE + random(0, flows)
 local DST_IP		= "172.16.0.2"
-local SRC_PORT		= 1234
-local DST_PORT		= 319
+local SRC_PORT		= 5000
+local DST_PORT		= 5001
 
 -- answer ARP requests for this IP on the rx port
 -- change this if benchmarking something like a NAT device
@@ -54,21 +55,27 @@ function master(args)
 end
 
 local function fillUdpPacket(buf, len)
-	buf:get5gIpUdpPacket():fill{
+	buf:get5gIpPacket():fill{
 		ethSrc = queue,
 		ethDst = DST_MAC,
-		ethType = 0x887F,
-		macLcid = 0xff,
-		macElcid = 0xff,
-		rlcOct = 255,
-		rlcSn = 0xffff,
-		rlcSo = 0xffff,
-		pdcpOct = 0xff,
-		pdcpPdcp_sn = 0xff,
+		ethType = 0x8100,
+		vlanTci = 0x4095,
+		vlanEther_type = 0x8100,
+		macLcid = 0,
+		macElcid = 0,
+		rlcOct = 0,
+		rlcSn = 0,
+		rlcSo = 0,
+		pdcpOct = 0,
+		pdcpPdcp_sn = 0,
 		ip4Src = SRC_IP,
 		ip4Dst = DST_IP,
-		udpSrc = SRC_PORT,
-		udpDst = DST_PORT,
+		ip4ID = 1,
+		ip4TTL = 64,
+		ip4Protocol = 7,
+		ip4Version = 4
+		tcpSrc = SRC_PORT,
+		tcpDst = DST_PORT,
 		pktLength = len
 	}
 end
