@@ -10,7 +10,7 @@ local arp    = require "proto.arp"
 local log    = require "log"
 
 -- set addresses here
-local DST_MAC		= "ac:1f:6b:67:06:40"
+local DST_MAC		= "ac:1f:6b:67:06:41"
 --local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
 local SRC_IP_BASE	= "172.16.0.1" -- actual address will be SRC_IP_BASE + random(0, flows)
 local DST_IP		= "172.16.0.2"
@@ -56,10 +56,11 @@ end
 
 local function fillUdpPacket(buf, len)
 	buf:get5gIpPacket():fill{
-		ethSrc = queue,
+		--ethSrc = queue,
+		ethSrc = "ac:1f:6b:67:06:41",
 		ethDst = DST_MAC,
 		ethType = 0x8100,
-		vlanTci = 0x4095,
+		vlanTci = 100,
 		vlanEther_type = 0x8100,
 		macLcid = 0,
 		macElcid = 0,
