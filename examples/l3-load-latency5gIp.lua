@@ -73,7 +73,7 @@ local function fillUdpPacket(buf, len)
 		ip4ID = 1,
 		ip4TTL = 64,
 		ip4Protocol = 7,
-		ip4Version = 4
+		ip4Version = 4,
 		tcpSrc = SRC_PORT,
 		tcpDst = DST_PORT,
 		pktLength = len
