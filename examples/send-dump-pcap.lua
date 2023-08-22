@@ -19,7 +19,8 @@ function master(txPort, rate, rc, rxPort)
 	rate = rate
 	threads = 1
 	pattern = "cbr"
-	local rxDev = device.config{port = rxPort, rxQueues = 2, rssQueues = 2, rssBaseQueue=0, dropEnable = false, rxDescs=1024}
+	--local rxDev = device.config{port = rxPort, rxQueues = 2, rssQueues = 2, rssBaseQueue=0, dropEnable = false, rxDescs=1024}
+	local rxDev = device.config{port = rxPort, rxQueues = 2, dropEnable = false, rxDescs=1024}
 	local txDev = device.config{port = txPort, disableOffloads = rc ~= "moongen"}
 
 	device.waitForLinks()
