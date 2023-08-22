@@ -9,6 +9,7 @@ local timer  = require "timer"
 local arp    = require "proto.arp"
 local log    = require "log"
 local lm     = require "libmoon"
+local pcap = require "pcap"
 
 -- set addresses here
 local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
