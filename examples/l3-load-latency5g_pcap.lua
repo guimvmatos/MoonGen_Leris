@@ -53,7 +53,7 @@ function master(args)
 		{ rxQueue = txDev:getRxQueue(2), txQueue = txDev:getTxQueue(2), ips = ARP_IP }
 	}
 
-	mg.startTask("dumpSlave", txDev:getTxQueue(0))
+	mg.startTask("dumpSlave", rxDev:getRxQueue(0))
 
 	mg.waitForTasks()
 end
