@@ -152,7 +152,7 @@ function dumpSlave(queue)
 	local mempool = memory.createMemPool()
 	local bufs = mempool:bufArray(128)
 	local pktCtr = stats:newPktRxCounter("Packets counted #", "plain")
-	file = "guilherme.pcap"
+	file = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
 	writer = pcap:newWriter(file)
 	while mg.running() do
 		local rx = queue:tryRecv(bufs, 100)
