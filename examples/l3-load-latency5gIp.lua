@@ -8,6 +8,7 @@ local stats  = require "stats"
 local timer  = require "timer"
 local arp    = require "proto.arp"
 local log    = require "log"
+local pcap = require "pcap"
 
 -- set addresses here
 local DST_MAC		= "ac:1f:6b:67:06:41"
