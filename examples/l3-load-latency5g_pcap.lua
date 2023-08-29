@@ -329,7 +329,7 @@ function timerSlave(txQueue, rxQueue, size, flows)
 	hist:save("histogram.csv")
 end
 
-function dumpSlave(rxQueue)
+function dumpSlave(txQueue)
     local snapLen = 60
     local mempool = memory.createMemPool()
     local bufs = mempool:bufArray(128)
@@ -340,7 +340,7 @@ function dumpSlave(rxQueue)
     local pcapWriter = pcap:newWriter(pcapFile)
 
     while mg.running() do
-        local rx = rxQueue:recv(bufs)  -- Receba pacotes da fila correta
+        local rx = txQueue:recv(bufs)  -- Receba pacotes da fila correta
         local batchTime = mg.getTime()
         for i = 1, rx do
             local buf = bufs[i]
@@ -354,5 +354,6 @@ function dumpSlave(rxQueue)
 
     pktCtr:finalize()
 end
+
 
 
