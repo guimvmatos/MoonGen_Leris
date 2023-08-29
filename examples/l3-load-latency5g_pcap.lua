@@ -161,7 +161,8 @@ function dumpSlave(queue)
     local pcapWriter = pcap:newWriter(pcapFile)
 
 	while mg.running() do
-		local rx = queue:tryRecv(bufs, 100)
+		--local rx = queue:tryRecv(bufs, 100)
+		local rx = rxQueue:recv(bufs)
 		local batchTime = mg.getTime()
 		for i = 1, rx do
 			local buf = bufs[i]
@@ -169,7 +170,7 @@ function dumpSlave(queue)
 			pcapWriter:writeBuf(batchTime, buf, snapLen)
 			pktCtr:countPacket(buf)
 		end
-		bufs:free(rx)
+		--bufs:free(rx)
 		pktCtr:update()
 	end
 	pcapWriter:close()
