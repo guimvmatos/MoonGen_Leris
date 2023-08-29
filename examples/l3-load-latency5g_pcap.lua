@@ -102,6 +102,11 @@ function loadSlave(queue, rxDev, size, flows)
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
 	local baseIP = parseIPAddress(SRC_IP_BASE)
+
+	-- Abra o arquivo PCAP para escrita
+	local pcapFile = "/caminho/para/seu/arquivo.pcap"
+    local pcapWriter = pcap:newWriter(pcapFile)
+
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
@@ -110,11 +115,20 @@ function loadSlave(queue, rxDev, size, flows)
 			counter = incAndWrap(counter, flows)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
+
 		bufs:offloadUdpChecksums()
 		queue:send(bufs)
 		txCtr:update()
 		rxCtr:update()
+
+		-- Escreva os pacotes no arquivo PCAP
+        for _, buf in ipairs(bufs) do
+            pcapWriter:writeBuf(mg.getTime(), buf, buf:getSize())
+        end
 	end
+	-- Finalize e feche o arquivo PCAP
+    pcapWriter:close()
+	
 	txCtr:finalize()
 	rxCtr:finalize()
 end
