@@ -53,7 +53,7 @@ function master(args)
 		{ rxQueue = txDev:getRxQueue(2), txQueue = txDev:getTxQueue(2), ips = ARP_IP }
 	}
 
-	mg.startTask("dumpSlave", rxDev:getRxQueue(0))
+	mg.startTask("dumpSlave", rxDev:getTxQueue(0))
 
 	mg.waitForTasks()
 end
@@ -104,7 +104,7 @@ function loadSlave(queue, rxDev, size, flows)
 	local baseIP = parseIPAddress(SRC_IP_BASE)
 
 	-- Abra o arquivo PCAP para escrita
-	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme2.pcap"
+	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme4.pcap"
     local pcapWriter = pcap:newWriter(pcapFile)
 
 	while mg.running() do
@@ -122,9 +122,9 @@ function loadSlave(queue, rxDev, size, flows)
 		rxCtr:update()
 
 		-- Escreva os pacotes no arquivo PCAP
-        for _, buf in ipairs(bufs) do
-            pcapWriter:writeBuf(mg.getTime(), buf, buf:getSize())
-        end
+        
+        pcapWriter:writeBuf(mg.getTime(), buf, buf:getSize())
+        
 	end
 	-- Finalize e feche o arquivo PCAP
     pcapWriter:close()
