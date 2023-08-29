@@ -104,7 +104,7 @@ function loadSlave(queue, rxDev, size, flows)
 	local baseIP = parseIPAddress(SRC_IP_BASE)
 
 	-- Abra o arquivo PCAP para escrita
-	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
+	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme2.pcap"
     local pcapWriter = pcap:newWriter(pcapFile)
 
 	while mg.running() do
