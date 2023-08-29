@@ -93,6 +93,7 @@ function loadSlave(queue, rxDev, size, flows)
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
+			local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
