@@ -88,7 +88,7 @@ function loadSlave(queue, rxDev, size, flows)
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
 	local baseIP = parseIPAddress(SRC_IP_BASE)
-	--local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
+	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
 	--local pcapWriter = pcap:newWriter(pcapFile)
 	while mg.running() do
 		bufs:alloc(size)
