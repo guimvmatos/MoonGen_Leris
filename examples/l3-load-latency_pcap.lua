@@ -8,7 +8,7 @@ local stats  = require "stats"
 local timer  = require "timer"
 local arp    = require "proto.arp"
 local log    = require "log"
-local pcap = require "pcap"
+--local pcap = require "pcap"
 
 -- set addresses here
 local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
@@ -88,15 +88,15 @@ function loadSlave(queue, rxDev, size, flows)
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
 	local baseIP = parseIPAddress(SRC_IP_BASE)
-	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
-	local pcapWriter = pcap:newWriter(pcapFile)
+	--local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
+	--local pcapWriter = pcap:newWriter(pcapFile)
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
-			pcapWriter:writeBuf(batchTime, buf)
+			--pcapWriter:writeBuf(batchTime, buf)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
@@ -107,7 +107,7 @@ function loadSlave(queue, rxDev, size, flows)
 	end
 	txCtr:finalize()
 	rxCtr:finalize()
-	pcapWriter:close()
+	--pcapWriter:close()
 end
 
 function timerSlave(txQueue, rxQueue, size, flows)
