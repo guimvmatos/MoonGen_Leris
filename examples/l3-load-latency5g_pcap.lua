@@ -340,7 +340,7 @@ function dumpSlave(rxQueue)
     local pcapWriter = pcap:newWriter(pcapFile)
 
     while mg.running() do
-        local rx = rxQueue:tryRecv(bufs, 100)  -- Receba pacotes da fila correta
+        local rx = rxQueue:recv(bufs)  -- Receba pacotes da fila correta
         local batchTime = mg.getTime()
         for i = 1, rx do
             local buf = bufs[i]
@@ -354,4 +354,5 @@ function dumpSlave(rxQueue)
 
     pktCtr:finalize()
 end
+
 
