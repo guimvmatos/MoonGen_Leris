@@ -220,7 +220,8 @@ function master(args)
 		{ rxQueue = txDev:getRxQueue(2), txQueue = txDev:getTxQueue(2), ips = ARP_IP }
 	}
 
-	mg.startTask("dumpSlave", rxDev:getTxQueue(0))
+	mg.startTask("dumpSlave", rxDev:getTxQueue(0))  -- Use getRxQueue(0) aqui
+
 
 	mg.waitForTasks()
 end
@@ -328,26 +329,29 @@ function timerSlave(txQueue, rxQueue, size, flows)
 	hist:save("histogram.csv")
 end
 
-function dumpSlave(queue)
-	snapLen = 60
-	local mempool = memory.createMemPool()
-	local bufs = mempool:bufArray(128)
-	local pktCtr = stats:newPktRxCounter("Packets counted #", "plain")
+function dumpSlave(rxQueue)
+    local snapLen = 60
+    local mempool = memory.createMemPool()
+    local bufs = mempool:bufArray(128)
+    local pktCtr = stats:newPktRxCounter("Packets counted #", "plain")
 
-	file = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
-	writer = pcap:newWriter(file)
+    -- Abra o arquivo PCAP para escrita
+    local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme.pcap"
+    local pcapWriter = pcap:newWriter(pcapFile)
 
-	while mg.running() do
-		local rx = queue:tryRecv(bufs, 100)
-		local batchTime = mg.getTime()
-		for i = 1, rx do
-			local buf = bufs[i]
-			writer:writeBuf(batchTime, buf, snapLen)
-			pktCtr:countPacket(buf)
-		end
-		bufs:free(rx)
-		pktCtr:update()
-	end
-	pktCtr:finalize()
+    while mg.running() do
+        local rx = rxQueue:tryRecv(bufs, 100)  -- Receba pacotes da fila correta
+        local batchTime = mg.getTime()
+        for i = 1, rx do
+            local buf = bufs[i]
+            pcapWriter:writeBuf(batchTime, buf, snapLen)
+            pktCtr:countPacket(buf)
+        end
+        bufs:free(rx)
+        pktCtr:update()
+    end
+    pcapWriter:close()
+
+    pktCtr:finalize()
 end
 
