@@ -8,7 +8,7 @@ local stats  = require "stats"
 local timer  = require "timer"
 local arp    = require "proto.arp"
 local log    = require "log"
---local pcap = require "pcap"
+local pcap = require "pcap"
 
 -- set addresses here
 local DST_MAC		= nil -- resolved via ARP on GW_IP or DST_IP, can be overriden with a string here
