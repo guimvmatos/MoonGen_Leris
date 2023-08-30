@@ -113,7 +113,7 @@ function loadSlave(queue, rxDev, size, flows)
 		bufs:offloadUdpChecksums()
 		queue:send(bufs)
 		local batchTime = mg.getTime()
-		pcapWriter:writeBuf(batchTime, bufs)
+		pcapWriter:writeBuf(batchTime, bufs, size)
 		txCtr:update()
 		rxCtr:update()
 	end
