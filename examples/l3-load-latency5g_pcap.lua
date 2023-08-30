@@ -44,7 +44,7 @@ function master(args)
 		txDev:getTxQueue(0):setRate(args.rate - (args.size + 4) * 8 / 1000)
 	end
 	mg.startTask("loadSlave", txDev:getTxQueue(0), rxDev, args.size, args.flows)
-	--mg.startTask("dumpSlave", rxDev:getTxQueue(0), args.size)
+	mg.startTask("dumpSlave", rxDev:getRxQueue(0), args.size)
 	mg.startTask("timerSlave", txDev:getTxQueue(1), rxDev:getRxQueue(1), args.size, args.flows)
 	arp.startArpTask{
 		-- run ARP on both ports
@@ -99,8 +99,8 @@ function loadSlave(queue, rxDev, size, flows)
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
 	local baseIP = parseIPAddress(SRC_IP_BASE)
-	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme3.pcap"
-	local pcapWriter = pcap:newWriter(pcapFile)
+	--local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme3.pcap"
+	--local pcapWriter = pcap:newWriter(pcapFile)
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
@@ -108,18 +108,17 @@ function loadSlave(queue, rxDev, size, flows)
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
+			--pcapWriter:writeBuf(batchTime, buf, size)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
 		queue:send(bufs)
-		local batchTime = mg.getTime()
-		pcapWriter:writeBuf(batchTime, bufs, size)
 		txCtr:update()
 		rxCtr:update()
 	end
 	txCtr:finalize()
 	rxCtr:finalize()
-	pcapWriter:close()
+	--pcapWriter:close()
 end
 
 function timerSlave(txQueue, rxQueue, size, flows)
@@ -157,7 +156,7 @@ function dumpSlave(queue, size)
 	file = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme4.pcap"
 	writer = pcap:newWriter(file)
 	while mg.running() do
-		local tx = queue:tryRecv(bufs, size)
+		local rx = queue:tryRecv(bufs, size)
 		local batchTime = mg.getTime()
 		for i = 1, rx do
 			local buf = bufs[i]
