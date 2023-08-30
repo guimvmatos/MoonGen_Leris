@@ -99,26 +99,27 @@ function loadSlave(queue, rxDev, size, flows)
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
 	local baseIP = parseIPAddress(SRC_IP_BASE)
-	--local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme3.pcap"
-	--local pcapWriter = pcap:newWriter(pcapFile)
+	local pcapFile = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme3.pcap"
+	local pcapWriter = pcap:newWriter(pcapFile)
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
-			local batchTime = mg.getTime()
+			--local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
-			--pcapWriter:writeBuf(batchTime, buf, size)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
 		queue:send(bufs)
+		local batchTime = mg.getTime()
+		pcapWriter:writeBuf(batchTime, bufs)
 		txCtr:update()
 		rxCtr:update()
 	end
 	txCtr:finalize()
 	rxCtr:finalize()
-	--pcapWriter:close()
+	pcapWriter:close()
 end
 
 function timerSlave(txQueue, rxQueue, size, flows)
@@ -149,6 +150,7 @@ function timerSlave(txQueue, rxQueue, size, flows)
 	hist:save("histogram.csv")
 end
 
+/*
 function dumpSlave(queue, size)
 	local mempool = memory.createMemPool()
 	local bufs = mempool:bufArray(size)
@@ -168,4 +170,4 @@ function dumpSlave(queue, size)
 	end
 	pktCtr:finalize()
 end
-
+*/
