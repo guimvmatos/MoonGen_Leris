@@ -44,7 +44,7 @@ function master(args)
 		txDev:getTxQueue(0):setRate(args.rate - (args.size + 4) * 8 / 1000)
 	end
 	mg.startTask("loadSlave", txDev:getTxQueue(0), rxDev, args.size, args.flows)
-	mg.startTask("dumpSlave", rxDev:getTxQueue(0), args.size)
+	--mg.startTask("dumpSlave", rxDev:getTxQueue(0), args.size)
 	mg.startTask("timerSlave", txDev:getTxQueue(1), rxDev:getRxQueue(1), args.size, args.flows)
 	arp.startArpTask{
 		-- run ARP on both ports
@@ -150,7 +150,6 @@ function timerSlave(txQueue, rxQueue, size, flows)
 	hist:save("histogram.csv")
 end
 
-/*
 function dumpSlave(queue, size)
 	local mempool = memory.createMemPool()
 	local bufs = mempool:bufArray(size)
@@ -170,4 +169,4 @@ function dumpSlave(queue, size)
 	end
 	pktCtr:finalize()
 end
-*/
+
