@@ -117,6 +117,7 @@ function loadSlave(queue, rxDev, size, flows)
 	end
 	txCtr:finalize()
 	rxCtr:finalize()
+	pcapWriter:close()
 end
 
 function timerSlave(txQueue, rxQueue, size, flows)
