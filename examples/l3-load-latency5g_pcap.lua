@@ -112,6 +112,7 @@ function loadSlave(queue, rxDev, size, flows)
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
 		queue:send(bufs)
+		local rx = queue:tryRecv(bufs, 100)
 		txCtr:update()
 		rxCtr:update()
 	end
