@@ -103,9 +103,11 @@ function loadSlave(queue, rxDev, size, flows)
 	while mg.running() do
 		bufs:alloc(size)
 		for i, buf in ipairs(bufs) do
+			local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
+			pcapWriter:writeBuf(batchTime, buf, size)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
