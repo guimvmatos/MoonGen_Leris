@@ -158,7 +158,7 @@ function dumpSlave(queue, size)
 	while mg.running() do
 		local tx = queue:tryRecv(bufs, size)
 		local batchTime = mg.getTime()
-		for i = 1, rx do
+		for i = 1, tx do
 			local buf = bufs[i]
 			writer:writeBuf(batchTime, buf, size)
 			pktCtr:countPacket(buf)
