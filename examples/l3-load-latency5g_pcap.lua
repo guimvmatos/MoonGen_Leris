@@ -44,7 +44,7 @@ function master(args)
 		txDev:getTxQueue(0):setRate(args.rate - (args.size + 4) * 8 / 1000)
 	end
 	mg.startTask("loadSlave", txDev:getTxQueue(0), rxDev, args.size, args.flows)
-	mg.startTask("dumpSlave", rxDev:getRxQueue(0), args.size)
+	mg.startTask("dumpSlave", txDev:getTxQueue(0), args.size)
 	mg.startTask("timerSlave", txDev:getTxQueue(1), rxDev:getRxQueue(1), args.size, args.flows)
 	arp.startArpTask{
 		-- run ARP on both ports
@@ -156,7 +156,7 @@ function dumpSlave(queue, size)
 	file = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme4.pcap"
 	writer = pcap:newWriter(file)
 	while mg.running() do
-		local rx = queue:tryRecv(bufs, size)
+		local tx = queue:tryRecv(bufs, size)
 		local batchTime = mg.getTime()
 		for i = 1, rx do
 			local buf = bufs[i]
