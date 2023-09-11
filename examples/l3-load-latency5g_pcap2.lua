@@ -93,7 +93,7 @@ function loadSlave(queue, rxDev, size, flows)
 	local mempool = memory.createMemPool(function(buf)
 		fillUdpPacket(buf, size)
 	end)
-	local bufs = mempool:bufArray(100)
+	local bufs = mempool:bufArray(1)
 	local counter = 0
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
