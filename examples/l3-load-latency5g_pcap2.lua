@@ -104,7 +104,7 @@ function loadSlave(queue, rxDev, size, flows)
 		bufs:alloc(size)
 		--for i, buf in ipairs(bufs) do
 		for i, buf in ipairs(bufs) do	
-			print(i)
+			--print(i)
 			--print(buf)
 			local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
