@@ -102,13 +102,14 @@ function loadSlave(queue, rxDev, size, flows)
 	local pcapWriter = pcap:newWriter(pcapFile)
 	while mg.running() do
 		bufs:alloc(size)
-		for i, buf in ipairs(bufs) do
+		--for i, buf in ipairs(bufs) do
+		for i, buf in ipairs(bufs) do	
+			print(i)
 			local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
 			pcapWriter:writeBuf(batchTime, buf, size)
-			local pktCtr = stats:newPktRxCounter("TESTE::::: " .. i)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
