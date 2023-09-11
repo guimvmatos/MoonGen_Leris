@@ -93,7 +93,7 @@ function loadSlave(queue, rxDev, size, flows)
 	local mempool = memory.createMemPool(function(buf)
 		fillUdpPacket(buf, size)
 	end)
-	local bufs = mempool:bufArray()
+	local bufs = mempool:bufArray(100)
 	local counter = 0
 	local txCtr = stats:newDevTxCounter(queue, "plain")
 	local rxCtr = stats:newDevRxCounter(rxDev, "plain")
@@ -105,6 +105,7 @@ function loadSlave(queue, rxDev, size, flows)
 		--for i, buf in ipairs(bufs) do
 		for i, buf in ipairs(bufs) do	
 			print(i)
+			--print(buf)
 			local batchTime = mg.getTime()
 			local pkt = buf:getUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
