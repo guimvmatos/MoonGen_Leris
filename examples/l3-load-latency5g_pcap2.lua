@@ -59,7 +59,8 @@ local function fillUdpPacket(buf, len)
 		ethSrc = queue,
 		ethDst = DST_MAC,
 		ethType = 0x8100,
-		vlanTci = 0x4095,
+		--vlanTci = 0x4095,
+		vlanTci = SRC_IP_BASE,
 		vlanEther_type = 0x0800,
 		macLcid = 0xff,
 		macElcid = 0xff,
@@ -110,6 +111,7 @@ function loadSlave(queue, rxDev, size, flows)
 			local pkt = buf:getUdpPacket()
 			--pkt.ip4.src:set(baseIP + counter)
 			pkt.ip4.src:set(baseIP + counter)
+			pkt.vlan.vlanTci:set(counter)
 			counter = incAndWrap(counter, flows)
 			print(counter)
 			pcapWriter:writeBuf(batchTime, buf, size)
