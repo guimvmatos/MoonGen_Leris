@@ -108,6 +108,7 @@ function loadSlave(queue, rxDev, size, flows)
 			pkt.ip4.src:set(baseIP + counter)
 			counter = incAndWrap(counter, flows)
 			pcapWriter:writeBuf(batchTime, buf, size)
+			local pktCtr = stats:newPktRxCounter("TESTE::::: " .. i)
 		end
 		-- UDP checksums are optional, so using just IPv4 checksums would be sufficient here
 		bufs:offloadUdpChecksums()
