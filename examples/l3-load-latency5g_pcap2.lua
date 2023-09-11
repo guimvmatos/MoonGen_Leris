@@ -60,7 +60,7 @@ local function fillUdpPacket(buf, len)
 		ethDst = DST_MAC,
 		ethType = 0x8100,
 		vlanTci = 0x4095,
-		vlanTci = SRC_IP_BASE,
+		--vlanTci = SRC_IP_BASE,
 		vlanEther_type = 0x0800,
 		macLcid = 0xff,
 		macElcid = 0xff,
