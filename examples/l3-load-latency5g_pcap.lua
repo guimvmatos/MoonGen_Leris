@@ -156,7 +156,7 @@ function dumpSlave(queue, size)
 	file = "/home/guimvmatos/moongen3/MoonGen_Leris/guilherme4.pcap"
 	writer = pcap:newWriter(file)
 	while mg.running() do
-		local tx = queue:tryRecv(bufs, size)
+		local tx = queue:trySend(bufs, size)
 		local batchTime = mg.getTime()
 		for i = 1, tx do
 			local buf = bufs[i]
