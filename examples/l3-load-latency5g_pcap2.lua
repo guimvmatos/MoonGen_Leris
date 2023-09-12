@@ -108,7 +108,7 @@ function loadSlave(queue, rxDev, size, flows)
 			local batchTime = mg.getTime()
 			local pkt = buf:get5gIpUdpPacket()
 			pkt.ip4.src:set(baseIP + counter)
-			pkt.vlan.tci = (vlan_base + counter)
+			pkt.vlan.tci = (counter)
 			counter = incAndWrap(counter, flows)
 			pcapWriter:writeBuf(batchTime, buf, size)
 		end
