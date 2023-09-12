@@ -16,7 +16,7 @@ local SRC_IP_BASE	= "172.16.0.1" -- actual address will be SRC_IP_BASE + random(
 local DST_IP		= "172.16.0.2"
 local SRC_PORT		= 1234
 local DST_PORT		= 319
-local vlan_base = "255"
+local vlan_base = "0"
 
 -- answer ARP requests for this IP on the rx port
 -- change this if benchmarking something like a NAT device
